@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube - C.J Philip</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="scroll-animations.js"></script>
+    <script src="sidebar-toggle.js"></script>
+    <script src="settings.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <span>C,J Philip</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="youtube.html">YouTube</a></li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Blog</span>
+                    <div class="dropdown-content">
+                        <a href="writing-tips.html">Writing Tips</a>
+                        <a href="personal-updates.html">Personal Updates</a>
+                        <a href="video-plans.html">Video Plans</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Reviews</span>
+                    <div class="dropdown-content">
+                        <a href="letterboxd.html">Letterboxd Reviews</a>
+                        <a href="book-reviews.html">Book Reviews</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Short Stories</span>
+                    <div class="dropdown-content">
+                        <a href="alvora.html">Alvora</a>
+                        <a href="zehndar.html">Zehndar</a>
+                    </div>
+                </li>
+                <li><a href="feedback.html">Feedback</a></li>
+                <li><a href="settings.html" class="settings-icon" title="Settings">⚙️</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-content-wrapper">
+
+    <div class="page-hero fade-in-section">
+        <h1>C,J Philip: YouTube Channels</h1>
+    </div>
+
+    <section class="fade-in-section">
+        <div class="channels-grid">
+            <div class="channel-card" onclick="selectChannel('reviews')" id="channel-reviews" style="cursor: pointer; border-color: var(--accent); border-width: 4px;">
+                <img src="avatar-smile.png" alt="CJ Philip" class="channel-avatar">
+                <h3>CJ Philip</h3>
+                <p style="margin-top: 0.5rem; color: #666;">Reviews & Writing</p>
+            </div>
+            <div class="channel-card" onclick="selectChannel('gaming')" id="channel-gaming" style="cursor: pointer;">
+                <img src="avatar-confused.png" alt="CJ Philip Gaming" class="channel-avatar">
+                <h3>CJ Philip Gaming</h3>
+                <p style="margin-top: 0.5rem; color: #666;">Gaming Content</p>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('videos')">Videos</button>
+            <button class="tab-btn" onclick="showTab('shorts')">Shorts</button>
+            <button class="tab-btn" onclick="showTab('streams')">Streams</button>
+        </div>
+
+        <div id="videos-content">
+            <div class="video-grid" id="videos-grid">
+                <p style="grid-column: 1/-1; text-align: center; padding: 2rem; color: #666;">
+                    Loading videos...
+                </p>
+            </div>
+        </div>
+
+        <div id="shorts-content" style="display: none;">
+            <div class="video-grid" id="shorts-grid">
+                <p style="grid-column: 1/-1; text-align: center; padding: 2rem; color: #666;">
+                    Loading shorts...
+                </p>
+            </div>
+        </div>
+
+        <div id="streams-content" style="display: none;">
+            <div class="video-grid" id="streams-grid">
+                <p style="grid-column: 1/-1; text-align: center; padding: 2rem; color: #666;">
+                    Loading streams...
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Channel IDs
+        const CHANNEL_ID_REVIEWS = 'UC3kIeFQdpDf3Sx_cVe75HfQ';
+        const CHANNEL_ID_GAMING = 'UCh_6CVz-vy0ltQh5A-ERUzw';
+        
+        let currentChannel = 'reviews'; // Default to reviews channel
+        let allVideos = { reviews: [], gaming: [] };
+        let allShorts = { reviews: [], gaming: [] };
+        let allStreams = { reviews: [], gaming: [] };
+
+        // Channel selection
+        function selectChannel(channel) {
+            currentChannel = channel;
+            
+            // Update UI - change border and overlay opacity
+            const reviewsCard = document.getElementById('channel-reviews');
+            const gamingCard = document.getElementById('channel-gaming');
+            
+            if (channel === 'reviews') {
+                reviewsCard.style.borderColor = 'var(--accent)';
+                reviewsCard.style.borderWidth = '4px';
+                gamingCard.style.borderColor = 'var(--border)';
+                gamingCard.style.borderWidth = '2px';
+            } else if (channel === 'gaming') {
+                gamingCard.style.borderColor = 'var(--accent)';
+                gamingCard.style.borderWidth = '4px';
+                reviewsCard.style.borderColor = 'var(--border)';
+                reviewsCard.style.borderWidth = '2px';
+            } else {
+                reviewsCard.style.borderColor = 'var(--border)';
+                reviewsCard.style.borderWidth = '2px';
+                gamingCard.style.borderColor = 'var(--border)';
+                gamingCard.style.borderWidth = '2px';
+            }
+            
+            // Reload current tab
+            const activeTab = document.querySelector('.tab-btn.active');
+            const tabText = activeTab.textContent.trim();
+            if (tabText === 'Videos') {
+                displayVideos();
+            } else if (tabText === 'Shorts') {
+                displayShorts();
+            } else if (tabText === 'Streams') {
+                displayStreams();
+            }
+        }
+
+        // Tab switching
+        function showTab(tab) {
+            const videosContent = document.getElementById('videos-content');
+            const shortsContent = document.getElementById('shorts-content');
+            const streamsContent = document.getElementById('streams-content');
+            const tabs = document.querySelectorAll('.tab-btn');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            
+            if (tab === 'videos') {
+                videosContent.style.display = 'block';
+                shortsContent.style.display = 'none';
+                streamsContent.style.display = 'none';
+                tabs[0].classList.add('active');
+                displayVideos();
+            } else if (tab === 'shorts') {
+                videosContent.style.display = 'none';
+                shortsContent.style.display = 'block';
+                streamsContent.style.display = 'none';
+                tabs[1].classList.add('active');
+                displayShorts();
+            } else if (tab === 'streams') {
+                videosContent.style.display = 'none';
+                shortsContent.style.display = 'none';
+                streamsContent.style.display = 'block';
+                tabs[2].classList.add('active');
+                displayStreams();
+            }
+        }
+
+        // Fetch videos from YouTube RSS feed
+        async function fetchYouTubeVideos(channelId, type = 'videos') {
+            try {
+                const rssUrl = encodeURIComponent(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);
+                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
+                const data = await response.json();
+                
+                if (data.items) {
+                    return data.items.filter(item => {
+                        const title = item.title.toLowerCase();
+                        const isShort = item.link.includes('/shorts/');
+                        const isStream = title.includes('live') || title.includes('stream') || title.includes('🔴');
+                        
+                        if (type === 'shorts') {
+                            return isShort;
+                        } else if (type === 'streams') {
+                            return isStream && !isShort;
+                        } else {
+                            // Regular videos: not shorts and not streams
+                            return !isShort && !isStream;
+                        }
+                    });
+                }
+                return [];
+            } catch (error) {
+                console.error('Error fetching videos:', error);
+                return [];
+            }
+        }
+
+        // Render video cards
+        function renderVideos(videos, gridId) {
+            const grid = document.getElementById(gridId);
+            
+            if (videos.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 2rem; color: #666;">No videos found. Try selecting a channel above!</p>';
+                return;
+            }
+            
+            grid.innerHTML = videos.map(video => {
+                const videoId = video.link.split('v=')[1] || video.link.split('/shorts/')[1];
+                const thumbnail = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+                
+                return `
+                    <div class="video-card" onclick="window.open('${video.link}', '_blank')">
+                        <div class="video-thumbnail">
+                            <img src="${thumbnail}" alt="${video.title}" loading="lazy">
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">${video.title}</div>
+                            <div class="video-meta">${new Date(video.pubDate).toLocaleDateString()}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Display videos based on selected channel
+        function displayVideos() {
+            let videos = [];
+            
+            if (currentChannel === 'reviews') {
+                videos = allVideos.reviews;
+            } else if (currentChannel === 'gaming') {
+                videos = allVideos.gaming;
+            } else {
+                videos = [...allVideos.reviews, ...allVideos.gaming]
+                    .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+            }
+            
+            videos = videos.slice(0, 12);
+            renderVideos(videos, 'videos-grid');
+        }
+
+        // Display shorts based on selected channel
+        function displayShorts() {
+            let shorts = [];
+            
+            if (currentChannel === 'reviews') {
+                shorts = allShorts.reviews;
+            } else if (currentChannel === 'gaming') {
+                shorts = allShorts.gaming;
+            } else {
+                shorts = [...allShorts.reviews, ...allShorts.gaming]
+                    .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+            }
+            
+            shorts = shorts.slice(0, 12);
+            renderVideos(shorts, 'shorts-grid');
+        }
+
+        // Display streams based on selected channel
+        function displayStreams() {
+            let streams = [];
+            
+            if (currentChannel === 'reviews') {
+                streams = allStreams.reviews;
+            } else if (currentChannel === 'gaming') {
+                streams = allStreams.gaming;
+            } else {
+                streams = [...allStreams.reviews, ...allStreams.gaming]
+                    .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+            }
+            
+            streams = streams.slice(0, 12);
+            
+            // Add special styling for streams
+            const grid = document.getElementById('streams-grid');
+            
+            if (streams.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 2rem; color: #666;">No streams found. Check back later for live content!</p>';
+                return;
+            }
+            
+            grid.innerHTML = streams.map(video => {
+                const videoId = video.link.split('v=')[1] || video.link.split('/shorts/')[1];
+                const thumbnail = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+                
+                return `
+                    <div class="video-card" onclick="window.open('${video.link}', '_blank')">
+                        <div class="video-thumbnail">
+                            <img src="${thumbnail}" alt="${video.title}" loading="lazy">
+                            <span style="position: absolute; top: 8px; right: 8px; font-size: 1.2rem; line-height: 1;">🔴</span>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">${video.title}</div>
+                            <div class="video-meta">${new Date(video.pubDate).toLocaleDateString()}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Load all videos
+        async function loadAllContent() {
+            allVideos.reviews = await fetchYouTubeVideos(CHANNEL_ID_REVIEWS, 'videos');
+            allVideos.gaming = await fetchYouTubeVideos(CHANNEL_ID_GAMING, 'videos');
+            allShorts.reviews = await fetchYouTubeVideos(CHANNEL_ID_REVIEWS, 'shorts');
+            allShorts.gaming = await fetchYouTubeVideos(CHANNEL_ID_GAMING, 'shorts');
+            allStreams.reviews = await fetchYouTubeVideos(CHANNEL_ID_REVIEWS, 'streams');
+            allStreams.gaming = await fetchYouTubeVideos(CHANNEL_ID_GAMING, 'streams');
+            
+            displayVideos();
+        }
+
+        // Initialize
+        loadAllContent();
+    </script>
+    </div>
+
+    <footer>
+        <p>© 2026 C.J Philip. All rights reserved.</p>
+    </footer>
+</body>
+</html>
