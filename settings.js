@@ -1,4 +1,4 @@
-// Settings Management System - Enhanced with Performance Optimizations
+// Settings Management System
 (function() {
     // Default settings
     const defaultSettings = {
@@ -7,21 +7,15 @@
         reduceMotion: false,
         defaultYtChannel: 'cjphilip',
         letterboxdSort: 'recent',
-        autoScroll: false,
-        darkMode: false,
-        fontSize: 'medium',
-        colorTheme: 'default',
-        enableGPU: true,
-        compactMode: false
+        autoScroll: false
     };
 
-    // Load settings from localStorage with error handling
+    // Load settings from localStorage
     function loadSettings() {
         const saved = localStorage.getItem('userSettings');
         if (saved) {
             try {
-                const parsed = JSON.parse(saved);
-                return { ...defaultSettings, ...parsed };
+                return { ...defaultSettings, ...JSON.parse(saved) };
             } catch (e) {
                 console.error('Error loading settings:', e);
                 return defaultSettings;
@@ -32,12 +26,7 @@
 
     // Save settings to localStorage
     function saveSettingsToStorage(settings) {
-        try {
-            localStorage.setItem('userSettings', JSON.stringify(settings));
-        } catch (e) {
-            console.error('Error saving settings:', e);
-            showNotification('⚠️ Settings could not be saved');
-        }
+        localStorage.setItem('userSettings', JSON.stringify(settings));
     }
 
     // Apply settings to the page
@@ -45,23 +34,20 @@
         // Apply layout mode
         if (settings.layoutMode === 'sidebar') {
             document.body.classList.add('sidebar-mode');
+            localStorage.setItem('sidebarMode', 'true');
         } else {
             document.body.classList.remove('sidebar-mode');
+            localStorage.setItem('sidebarMode', 'false');
         }
 
         // Apply animation speed
-        const speedValues = {
-            slow: '1.2s',
-            normal: '0.8s',
-            fast: '0.4s',
-            none: '0s'
-        };
-        
         document.documentElement.style.setProperty('--transition-speed', 
-            speedValues[settings.animationSpeed] || '0.8s'
+            settings.animationSpeed === 'slow' ? '1.2s' :
+            settings.animationSpeed === 'fast' ? '0.4s' :
+            settings.animationSpeed === 'none' ? '0s' : '0.8s'
         );
 
-        // Apply reduce motion (overrides animation speed)
+        // Apply reduce motion
         if (settings.reduceMotion) {
             document.body.classList.add('reduce-motion');
             document.documentElement.style.setProperty('--transition-speed', '0s');
@@ -69,43 +55,10 @@
             document.body.classList.remove('reduce-motion');
         }
 
-        // Apply dark mode
-        if (settings.darkMode) {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            document.body.classList.add('dark-mode');
-        } else {
-            document.documentElement.setAttribute('data-theme', 'light');
-            document.body.classList.remove('dark-mode');
-        }
-
-        // Apply font size
-        const fontSizes = {
-            small: '14px',
-            medium: '16px',
-            large: '18px',
-            'extra-large': '20px'
-        };
-        document.documentElement.style.setProperty('--base-text-size', 
-            fontSizes[settings.fontSize] || '16px'
-        );
-
-        // Apply color theme
-        document.documentElement.setAttribute('data-color-theme', settings.colorTheme);
-
-        // Apply compact mode
-        if (settings.compactMode) {
-            document.body.classList.add('compact-mode');
-        } else {
-            document.body.classList.remove('compact-mode');
-        }
-
-        // GPU acceleration toggle
-        if (settings.enableGPU) {
-            document.body.style.willChange = 'auto';
-        }
-
-        // Store preferences
+        // Store YouTube default channel preference
         localStorage.setItem('defaultYtChannel', settings.defaultYtChannel);
+
+        // Store Letterboxd sort preference
         localStorage.setItem('letterboxdSort', settings.letterboxdSort);
 
         // Apply auto-scroll
@@ -130,68 +83,25 @@
         }
     });
 
-    // Apply saved settings immediately (before DOMContentLoaded) to prevent flash
-    (function() {
-        try {
-            const saved = localStorage.getItem('userSettings');
-            if (saved) {
-                const settings = JSON.parse(saved);
-                // Apply critical settings immediately
-                if (settings.darkMode) {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                    document.body.classList.add('dark-mode');
-                }
-                if (settings.fontSize) {
-                    const fontSizes = { small: '14px', medium: '16px', large: '18px', 'extra-large': '20px' };
-                    document.documentElement.style.setProperty('--base-text-size', fontSizes[settings.fontSize] || '16px');
-                }
-            }
-        } catch (e) {
-            console.error('Error loading theme:', e);
-        }
-    })();
-
     // Populate settings form
     function populateSettingsForm(settings) {
-        const fields = [
-            'layout-mode', 'animation-speed', 'reduce-motion', 
-            'default-yt-channel', 'letterboxd-sort', 'auto-scroll',
-            'dark-mode', 'font-size', 'color-theme', 'enable-gpu', 'compact-mode'
-        ];
-
-        fields.forEach(fieldId => {
-            const element = document.getElementById(fieldId);
-            if (!element) return;
-
-            const settingKey = fieldId.replace(/-/g, 'Camel')
-                .split('Camel')
-                .map((word, i) => i === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1))
-                .join('');
-            
-            const realKey = fieldId.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
-
-            if (element.type === 'checkbox') {
-                element.checked = settings[realKey] || false;
-            } else if (element.tagName === 'SELECT') {
-                element.value = settings[realKey] || '';
-            }
-        });
+        document.getElementById('layout-mode').value = settings.layoutMode;
+        document.getElementById('animation-speed').value = settings.animationSpeed;
+        document.getElementById('reduce-motion').checked = settings.reduceMotion;
+        document.getElementById('default-yt-channel').value = settings.defaultYtChannel;
+        document.getElementById('letterboxd-sort').value = settings.letterboxdSort;
+        document.getElementById('auto-scroll').checked = settings.autoScroll;
     }
 
     // Save settings from form
     window.saveSettings = function() {
         const settings = {
-            layoutMode: document.getElementById('layout-mode')?.value || 'header',
-            animationSpeed: document.getElementById('animation-speed')?.value || 'normal',
-            reduceMotion: document.getElementById('reduce-motion')?.checked || false,
-            defaultYtChannel: document.getElementById('default-yt-channel')?.value || 'cjphilip',
-            letterboxdSort: document.getElementById('letterboxd-sort')?.value || 'recent',
-            autoScroll: document.getElementById('auto-scroll')?.checked || false,
-            darkMode: document.getElementById('dark-mode')?.checked || false,
-            fontSize: document.getElementById('font-size')?.value || 'medium',
-            colorTheme: document.getElementById('color-theme')?.value || 'default',
-            enableGPU: document.getElementById('enable-gpu')?.checked !== false,
-            compactMode: document.getElementById('compact-mode')?.checked || false
+            layoutMode: document.getElementById('layout-mode').value,
+            animationSpeed: document.getElementById('animation-speed').value,
+            reduceMotion: document.getElementById('reduce-motion').checked,
+            defaultYtChannel: document.getElementById('default-yt-channel').value,
+            letterboxdSort: document.getElementById('letterboxd-sort').value,
+            autoScroll: document.getElementById('auto-scroll').checked
         };
 
         saveSettingsToStorage(settings);
@@ -219,7 +129,7 @@
         }
     };
 
-    // Show notification with better performance
+    // Show notification
     function showNotification(message) {
         // Remove existing notification
         const existing = document.querySelector('.settings-notification');
@@ -227,30 +137,22 @@
             existing.remove();
         }
 
-        // Create notification with reduced motion consideration
+        // Create notification
         const notification = document.createElement('div');
         notification.className = 'settings-notification';
         notification.textContent = message;
-        notification.setAttribute('role', 'status');
-        notification.setAttribute('aria-live', 'polite');
         document.body.appendChild(notification);
 
         // Show notification
-        requestAnimationFrame(() => {
-            notification.classList.add('show');
-        });
+        setTimeout(() => notification.classList.add('show'), 10);
 
         // Hide and remove after 3 seconds
-        const removeTimeout = setTimeout(() => {
+        setTimeout(() => {
             notification.classList.remove('show');
-            const destroyTimeout = setTimeout(() => notification.remove(), 300);
-            return () => clearTimeout(destroyTimeout);
+            setTimeout(() => notification.remove(), 300);
         }, 3000);
-
-        return () => clearTimeout(removeTimeout);
     }
 
     // Export for other scripts to use
     window.getUserSettings = loadSettings;
-    window.applySettings = applySettings;
 })();
