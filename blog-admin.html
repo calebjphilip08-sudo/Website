@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Admin - C.J Philip</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .blog-admin {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            min-height: calc(100vh - 200px);
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 1rem;
+        }
+
+        .admin-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .auth-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid var(--accent);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-form {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .auth-form input {
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--accent);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .auth-form button {
+            padding: 0.75rem 2rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .auth-form button:hover {
+            background: var(--gold);
+            color: var(--primary);
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .admin-tab {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--gray);
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .admin-tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid var(--accent);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 200px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-submit, .btn-cancel, .btn-delete {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background: var(--gold);
+            color: var(--primary);
+        }
+
+        .btn-cancel {
+            background: #f0f0f0;
+            color: var(--gray);
+        }
+
+        .btn-cancel:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #c82333;
+        }
+
+        .posts-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .post-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            transition: all 0.3s ease;
+        }
+
+        .post-item:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .post-info h3 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .post-meta {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .post-actions button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn {
+            background: var(--accent);
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background: var(--gold);
+            color: var(--primary);
+        }
+
+        .delete-btn {
+            background: #f0f0f0;
+            color: #dc3545;
+        }
+
+        .delete-btn:hover {
+            background: #dc3545;
+            color: white;
+        }
+
+        .featured-badge {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-message {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .status-message.show {
+            display: block;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: var(--gray);
+            padding: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .blog-admin {
+                padding: 1rem;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .auth-form {
+                flex-direction: column;
+            }
+
+            .post-item {
+                flex-direction: column;
+            }
+
+            .post-actions {
+                margin-top: 1rem;
+                width: 100%;
+            }
+        }
+    </style>
+    <script src="scroll-animations.js"></script>
+    <script src="sidebar-toggle.js"></script>
+    <script src="settings.js"></script>
+    <script src="blog-system.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <span>C,J Philip</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="youtube.html">YouTube</a></li>
+                <li><a href="blog-admin.html" class="active">Blog Admin</a></li>
+                <li><a href="settings.html" class="settings-icon" title="Settings">⚙️</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-content-wrapper">
+        <div class="blog-admin">
+            <div class="admin-header">
+                <h1 class="admin-title">Blog Admin Panel</h1>
+                <div id="auth-status" style="color: var(--gray); font-weight: 600;"></div>
+            </div>
+
+            <!-- Authentication Section -->
+            <div class="auth-section" id="auth-section">
+                <h2>Admin Login</h2>
+                <form class="auth-form" onsubmit="handleLogin(event)">
+                    <input type="password" id="admin-password" placeholder="Enter admin password" required>
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+
+            <!-- Admin Content (Hidden until authenticated) -->
+            <div id="admin-content" style="display: none;">
+                <!-- Tabs -->
+                <div class="admin-tabs">
+                    <button class="admin-tab active" onclick="switchTab('posts')">View Posts</button>
+                    <button class="admin-tab" onclick="switchTab('create')">Create Post</button>
+                    <button class="admin-tab" onclick="switchTab('backup')">Backup/Restore</button>
+                    <button class="admin-tab" onclick="switchTab('logout')" style="margin-left: auto;">Logout</button>
+                </div>
+
+                <!-- View Posts Tab -->
+                <div id="posts-tab" class="tab-content active">
+                    <div class="form-section">
+                        <h2>All Posts</h2>
+                        <div id="status-message" class="status-message"></div>
+                        <div id="posts-list" class="posts-list"></div>
+                    </div>
+                </div>
+
+                <!-- Create Post Tab -->
+                <div id="create-tab" class="tab-content">
+                    <div class="form-section">
+                        <h2>Create New Post</h2>
+                        <div id="create-status" class="status-message"></div>
+                        <form onsubmit="handleCreatePost(event)">
+                            <div class="form-group">
+                                <label for="post-title">Title *</label>
+                                <input type="text" id="post-title" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="post-excerpt">Excerpt</label>
+                                <input type="text" id="post-excerpt" placeholder="Brief summary (optional)">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="post-content">Content *</label>
+                                <textarea id="post-content" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="post-category">Category</label>
+                                <select id="post-category">
+                                    <option value="general">General</option>
+                                    <option value="writing-tips">Writing Tips</option>
+                                    <option value="video-plans">Video Plans</option>
+                                    <option value="personal">Personal Updates</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="post-tags">Tags (comma-separated)</label>
+                                <input type="text" id="post-tags" placeholder="e.g., writing, fiction, tips">
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="post-featured">
+                                    Mark as Featured
+                                </label>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn-submit">Create Post</button>
+                                <button type="reset" class="btn-cancel">Clear</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Backup/Restore Tab -->
+                <div id="backup-tab" class="tab-content">
+                    <div class="form-section">
+                        <h2>Backup & Restore</h2>
+                        <div id="backup-status" class="status-message"></div>
+                        
+                        <div style="margin-bottom: 2rem;">
+                            <h3 style="margin-bottom: 1rem;">Export Posts</h3>
+                            <p style="color: var(--gray); margin-bottom: 1rem;">Download all posts as a JSON file for backup.</p>
+                            <button onclick="exportPosts()" class="btn-submit">Download Backup</button>
+                        </div>
+
+                        <hr style="margin: 2rem 0; border: none; border-top: 2px solid var(--border);">
+
+                        <div>
+                            <h3 style="margin-bottom: 1rem;">Import Posts</h3>
+                            <p style="color: var(--gray); margin-bottom: 1rem;">Upload a previously exported JSON file to restore posts.</p>
+                            <input type="file" id="import-file" accept=".json" style="margin-bottom: 1rem;">
+                            <button onclick="importPosts()" class="btn-submit">Import from File</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 C.J Philip. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateAuthUI();
+            if (window.BlogAPI.isAuthenticated()) {
+                loadPosts();
+            }
+        });
+
+        // Update authentication UI
+        function updateAuthUI() {
+            const isAuth = window.BlogAPI.isAuthenticated();
+            const authSection = document.getElementById('auth-section');
+            const adminContent = document.getElementById('admin-content');
+            const authStatus = document.getElementById('auth-status');
+
+            if (isAuth) {
+                authSection.style.display = 'none';
+                adminContent.style.display = 'block';
+                authStatus.textContent = '✓ Authenticated';
+                authStatus.style.color = 'var(--accent)';
+            } else {
+                authSection.style.display = 'block';
+                adminContent.style.display = 'none';
+                authStatus.textContent = '✗ Not authenticated';
+                authStatus.style.color = '#dc3545';
+            }
+        }
+
+        // Handle login
+        function handleLogin(e) {
+            e.preventDefault();
+            const password = document.getElementById('admin-password').value;
+            const result = window.BlogAPI.login(password);
+
+            if (result.success) {
+                document.getElementById('admin-password').value = '';
+                updateAuthUI();
+                loadPosts();
+                showStatus('auth-section', result.message, 'success');
+            } else {
+                showStatus('auth-section', result.message, 'error');
+            }
+        }
+
+        // Handle logout
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.BlogAPI.logout();
+                updateAuthUI();
+            }
+        }
+
+        // Switch tabs
+        function switchTab(tab) {
+            if (tab === 'logout') {
+                handleLogout();
+                return;
+            }
+
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(tab + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Load and display posts
+        function loadPosts() {
+            const posts = window.BlogAPI.getPosts();
+            const list = document.getElementById('posts-list');
+
+            if (posts.length === 0) {
+                list.innerHTML = '<p class="empty-message">No posts yet. Create your first post!</p>';
+                return;
+            }
+
+            list.innerHTML = posts.map(post => `
+                <div class="post-item">
+                    <div class="post-info">
+                        <div>
+                            <h3>${post.title}${post.featured ? '<span class="featured-badge">Featured</span>' : ''}</h3>
+                            <div class="post-meta">
+                                <strong>${post.category}</strong> • ${new Date(post.date).toLocaleDateString()}
+                            </div>
+                            <p>${post.excerpt}</p>
+                            <div style="margin-top: 0.5rem;">
+                                <strong>Tags:</strong> ${post.tags.join(', ') || 'None'}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-actions">
+                        <button class="edit-btn" onclick="editPost('${post.id}')">Edit</button>
+                        <button class="delete-btn" onclick="deletePost('${post.id}')">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Create post
+        function handleCreatePost(e) {
+            e.preventDefault();
+            const result = window.BlogAPI.createPost({
+                title: document.getElementById('post-title').value,
+                content: document.getElementById('post-content').value,
+                excerpt: document.getElementById('post-excerpt').value,
+                category: document.getElementById('post-category').value,
+                featured: document.getElementById('post-featured').checked,
+                tags: document.getElementById('post-tags').value.split(',').map(t => t.trim()).filter(t => t)
+            });
+
+            if (result.success) {
+                document.getElementById('post-title').value = '';
+                document.getElementById('post-content').value = '';
+                document.getElementById('post-excerpt').value = '';
+                document.getElementById('post-featured').checked = false;
+                document.getElementById('post-tags').value = '';
+                showStatus('create-status', result.message, 'success');
+                loadPosts();
+            } else {
+                showStatus('create-status', result.message, 'error');
+            }
+        }
+
+        // Delete post
+        function deletePost(id) {
+            if (confirm('Are you sure you want to delete this post?')) {
+                const result = window.BlogAPI.deletePost(id);
+                if (result.success) {
+                    showStatus('status-message', result.message, 'success');
+                    loadPosts();
+                } else {
+                    showStatus('status-message', result.message, 'error');
+                }
+            }
+        }
+
+        // Edit post (placeholder)
+        function editPost(id) {
+            alert('Edit functionality coming soon!');
+        }
+
+        // Export posts
+        function exportPosts() {
+            const result = window.BlogAPI.exportPosts();
+            if (result.success) {
+                const dataStr = JSON.stringify(result.data, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `blog-backup-${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                showStatus('backup-status', 'Backup downloaded successfully', 'success');
+            }
+        }
+
+        // Import posts
+        function importPosts() {
+            const file = document.getElementById('import-file').files[0];
+            if (!file) {
+                showStatus('backup-status', 'Please select a file', 'error');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const result = window.BlogAPI.importPosts(e.target.result);
+                if (result.success) {
+                    showStatus('backup-status', result.message, 'success');
+                    document.getElementById('import-file').value = '';
+                    loadPosts();
+                } else {
+                    showStatus('backup-status', result.message, 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Show status message
+        function showStatus(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            const messageDiv = element.querySelector('.status-message') || element;
+            
+            messageDiv.textContent = message;
+            messageDiv.className = `status-message show status-${type}`;
+
+            setTimeout(() => {
+                messageDiv.classList.remove('show');
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

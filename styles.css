@@ -17,6 +17,37 @@
     --transition-speed: 0.8s;
 }
 
+/* Dark mode theme - properly tested values */
+html[data-theme="dark"],
+body.dark-mode {
+    --light: #2a2a2a;
+    --cream: #353535;
+    --gray: #aaaaaa;
+    --border: #454545;
+    --dark-text: #e8e8e8;
+    --primary: #ff4d4d;
+    --accent: #ff6b6b;
+}
+
+/* Color themes */
+html[data-color-theme="nature"] {
+    --primary: #2d5016;
+    --accent: #6ba12e;
+    --gold: #c9a961;
+}
+
+html[data-color-theme="ocean"] {
+    --primary: #004e89;
+    --accent: #1d7874;
+    --gold: #f18f01;
+}
+
+html[data-color-theme="sunset"] {
+    --primary: #d62828;
+    --accent: #f77f00;
+    --gold: #fcbf49;
+}
+
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
     background: var(--light);
@@ -25,6 +56,26 @@ body {
     line-height: 1.7;
     overflow-x: hidden;
     font-weight: 400;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* Reduce animations on dark mode or compact mode */
+body.dark-mode,
+body.compact-mode {
+    --transition-speed: 0.4s;
+}
+
+/* Compact mode reduces padding and spacing */
+body.compact-mode section {
+    padding: 2rem 1rem;
+}
+
+body.compact-mode .hero {
+    padding: 2rem 1rem;
+}
+
+body.compact-mode .page-content-wrapper {
+    padding: 1rem;
 }
 
 /* Subtle text shadow for all text */
@@ -58,8 +109,7 @@ body::-webkit-scrollbar {
 
 /* Page load fade-in (not header) */
 .page-content-wrapper {
-    opacity: 0;
-    animation: pageLoad 0.8s ease-in-out forwards;
+    opacity: 1;
 }
 
 @keyframes pageLoad {
