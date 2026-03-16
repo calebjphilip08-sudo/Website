@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - C.J Philip</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="scroll-animations.js"></script>
+    <script src="sidebar-toggle.js"></script>
+    <script src="settings.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <span>C,J Philip</span>
+            </a>
+            <button class="hamburger-menu" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="youtube.html">YouTube</a></li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Blog</span>
+                    <div class="dropdown-content">
+                        <a href="writing-tips.html">Writing Tips</a>
+                        <a href="personal-updates.html">Personal Updates</a>
+                        <a href="video-plans.html">Video Plans</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Reviews</span>
+                    <div class="dropdown-content">
+                        <a href="letterboxd.html">Letterboxd Reviews</a>
+                        <a href="book-reviews.html">Book Reviews</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Short Stories</span>
+                    <div class="dropdown-content">
+                        <a href="alvora.html">Alvora</a>
+                        <a href="zehndar.html">Zehndar</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Discover</span>
+                    <div class="dropdown-content">
+                        <a href="timeline.html">Timeline</a>
+                        <a href="sitemap.html">Sitemap</a>
+                        <a href="faq.html">FAQ</a>
+                        <a href="resources.html">Resources</a>
+                    </div>
+                </li>
+                <li><a href="feedback.html">Feedback</a></li>
+                <li><a href="settings.html" class="settings-icon" title="Settings">⚙️</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-content-wrapper">
+        <div class="page-hero">
+            <h1>Frequently Asked Questions</h1>
+            <p class="subtitle">Everything you need to know</p>
+        </div>
+
+        <section class="faq-section fade-in-section">
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What's the difference between your two YouTube channels?</span>
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>My main channel "CJ Philip - Reviews & Writing" focuses on film analysis, book discussions, writing tips, and video essays. 
+                            <br>My gaming channel "CJ Philip Gaming" features game playthroughs, series breakdowns, and game reviews. Both celebrate storytelling in different mediums!</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>When do you upload new content?</span>
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>I aim for regular uploads on both channels, but will not be commiting myself to a specific schedule, check my Video Plans page or follow my personal updates for the latest info.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Are your short stories available anywhere else?</span>
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>My Alvora and Zehndar short stories are exclusively available on this website. They're set in the worlds of my fantasy book series currently in development. Check back for updates as the books progress!</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>When will your book be released?</span>
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>My fantasy book series is currently in development. I'm focused on crafting the best story possible and will share updates as I progress. Follow my Personal Updates page or subscribe for announcements!</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Can I use your content for my project?</span>
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Please reach out via the Feedback page with your request. I'm open to collaborations and discussions! All content is copyrighted unless otherwise stated.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What are your favorite books/films?</span>
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>I love diverse storytelling! For detailed reviews and recommendations, check my Letterboxd page (films) and Book Reviews section. I'm always discovering new favorites!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2026 C.J Philip. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function toggleFAQ(button) {
+            const item = button.parentElement;
+            const answer = item.querySelector('.faq-answer');
+            const icon = button.querySelector('.faq-icon');
+            
+            item.classList.toggle('active');
+            answer.style.maxHeight = item.classList.contains('active') ? answer.scrollHeight + 'px' : '0';
+            icon.style.transform = item.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0)';
+        }
+    </script>
+
+    <style>
+        .page-hero {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem 2rem;
+        }
+
+        .page-hero h1 {
+            font-family: 'Playfair Display', 'Georgia', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--dark-text);
+            letter-spacing: -0.5px;
+        }
+
+        .page-hero .subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            font-style: italic;
+        }
+
+        .faq-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .faq-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .faq-item {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-text);
+            font-family: inherit;
+            transition: all 0.3s ease;
+            text-align: left;
+            letter-spacing: 0.2px;
+        }
+
+        .faq-question:hover {
+            color: var(--accent);
+            background: var(--light);
+        }
+
+        .faq-icon {
+            font-size: 0.8rem;
+            color: var(--accent);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 1.5rem;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .faq-answer p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--gray);
+        }
+
+        @media (max-width: 768px) {
+            .page-hero h1 {
+                font-size: 2rem;
+            }
+
+            .faq-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .faq-question {
+                padding: 1.25rem;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</body>
+</html>

@@ -1688,11 +1688,6 @@ body.sidebar-mode .full-page-embed {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.5s ease;
-}
-
-.settings-icon:hover {
-    transform: rotate(90deg);
 }
 
 body.sidebar-mode .settings-icon {

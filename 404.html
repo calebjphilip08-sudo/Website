@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - C.J Philip</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="scroll-animations.js"></script>
+    <script src="sidebar-toggle.js"></script>
+    <script src="settings.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <span>C,J Philip</span>
+            </a>
+            <button class="hamburger-menu" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="youtube.html">YouTube</a></li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Blog</span>
+                    <div class="dropdown-content">
+                        <a href="writing-tips.html">Writing Tips</a>
+                        <a href="personal-updates.html">Personal Updates</a>
+                        <a href="video-plans.html">Video Plans</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Reviews</span>
+                    <div class="dropdown-content">
+                        <a href="letterboxd.html">Letterboxd Reviews</a>
+                        <a href="book-reviews.html">Book Reviews</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Short Stories</span>
+                    <div class="dropdown-content">
+                        <a href="alvora.html">Alvora</a>
+                        <a href="zehndar.html">Zehndar</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Discover</span>
+                    <div class="dropdown-content">
+                        <a href="timeline.html">Timeline</a>
+                        <a href="sitemap.html">Sitemap</a>
+                        <a href="faq.html">FAQ</a>
+                        <a href="resources.html">Resources</a>
+                    </div>
+                </li>
+                <li><a href="feedback.html">Feedback</a></li>
+                <li><a href="settings.html" class="settings-icon" title="Settings">⚙️</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-content-wrapper">
+        <section class="error-section">
+            <div class="error-container">
+                <div class="error-content">
+                    <div class="error-number">404</div>
+                    <h1>Page Not Found</h1>
+                    <p class="error-subtitle">Looks like this page wandered off into the void...</p>
+                    
+                    <p class="error-description">
+                        The page you're looking for doesn't exist or has moved. Don't worry, you can always return to explore my creative work.
+                    </p>
+
+                    <div class="error-actions">
+                        <a href="index.html" class="btn btn-primary">Back to Home</a>
+                        <a href="sitemap.html" class="btn btn-secondary">View Sitemap</a>
+                    </div>
+
+                    <div class="suggestions">
+                        <h3>Explore Instead</h3>
+                        <div class="suggestion-grid">
+                            <a href="youtube.html" class="suggestion-card">
+                                <span class="icon">🎥</span>
+                                <h4>YouTube</h4>
+                                <p>Watch videos</p>
+                            </a>
+                            <a href="book-reviews.html" class="suggestion-card">
+                                <span class="icon">📚</span>
+                                <h4>Reviews</h4>
+                                <p>Read reviews</p>
+                            </a>
+                            <a href="writing-tips.html" class="suggestion-card">
+                                <span class="icon">✍️</span>
+                                <h4>Writing Tips</h4>
+                                <p>Learn writing</p>
+                            </a>
+                            <a href="alvora.html" class="suggestion-card">
+                                <span class="icon">📖</span>
+                                <h4>Stories</h4>
+                                <p>Read fiction</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="error-illustration">
+                    <div class="lost-character">
+                        <div class="char-head"></div>
+                        <div class="char-body"></div>
+                        <div class="char-arm"></div>
+                        <div class="char-text">Lost?</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2026 C.J Philip. All rights reserved.</p>
+    </footer>
+
+    <style>
+        .error-section {
+            min-height: calc(100vh - 200px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .error-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1200px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .error-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .error-number {
+            font-family: 'Playfair Display', 'Georgia', serif;
+            font-size: 6rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .error-content h1 {
+            font-family: 'Playfair Display', 'Georgia', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--dark-text);
+        }
+
+        .error-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin: 0;
+            font-style: italic;
+        }
+
+        .error-description {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--gray);
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: 2px solid var(--accent);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light);
+        }
+
+        .suggestions {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border);
+        }
+
+        .suggestions h3 {
+            font-family: 'Playfair Display', 'Georgia', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0 0 1.5rem 0;
+            color: var(--dark-text);
+        }
+
+        .suggestion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+        }
+
+        .suggestion-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 1rem;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .suggestion-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            transform: translateY(-4px);
+        }
+
+        .suggestion-card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .suggestion-card h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0 0 0.25rem 0;
+            color: var(--dark-text);
+        }
+
+        .suggestion-card p {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin: 0;
+        }
+
+        .error-illustration {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lost-character {
+            position: relative;
+            width: 200px;
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .char-head {
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            border-radius: 50%;
+            margin-bottom: 10px;
+            position: relative;
+            animation: bob 3s ease-in-out infinite;
+        }
+
+        .char-head::before,
+        .char-head::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            top: 20px;
+        }
+
+        .char-head::before {
+            left: 15px;
+        }
+
+        .char-head::after {
+            right: 15px;
+        }
+
+        .char-body {
+            width: 35px;
+            height: 50px;
+            background: var(--accent);
+            border-radius: 5px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .char-arm {
+            width: 100px;
+            height: 30px;
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+
+        .char-arm::before,
+        .char-arm::after {
+            content: '';
+            width: 30px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 4px;
+            animation: wave 1s ease-in-out infinite;
+        }
+
+        .char-arm::before {
+            animation-delay: 0s;
+        }
+
+        .char-arm::after {
+            animation-delay: 0.5s;
+        }
+
+        .char-text {
+            font-family: 'Playfair Display', 'Georgia', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        @keyframes bob {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                transform: rotate(0deg);
+                transform-origin: center;
+            }
+            50% {
+                transform: rotate(15deg);
+                transform-origin: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .error-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .error-number {
+                font-size: 4rem;
+            }
+
+            .error-content h1 {
+                font-size: 1.8rem;
+            }
+
+            .error-subtitle {
+                font-size: 1rem;
+            }
+
+            .error-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .suggestion-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .lost-character {
+                width: 150px;
+                height: 200px;
+            }
+
+            .char-head {
+                width: 45px;
+                height: 45px;
+            }
+
+            .char-body {
+                width: 25px;
+                height: 35px;
+            }
+        }
+    </style>
+</body>
+</html>

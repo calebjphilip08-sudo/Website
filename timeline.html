@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Timeline - C.J Philip</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="scroll-animations.js"></script>
+    <script src="sidebar-toggle.js"></script>
+    <script src="settings.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <span>C,J Philip</span>
+            </a>
+            <button class="hamburger-menu" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="youtube.html">YouTube</a></li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Blog</span>
+                    <div class="dropdown-content">
+                        <a href="writing-tips.html">Writing Tips</a>
+                        <a href="personal-updates.html">Personal Updates</a>
+                        <a href="video-plans.html">Video Plans</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Reviews</span>
+                    <div class="dropdown-content">
+                        <a href="letterboxd.html">Letterboxd Reviews</a>
+                        <a href="book-reviews.html">Book Reviews</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Short Stories</span>
+                    <div class="dropdown-content">
+                        <a href="alvora.html">Alvora</a>
+                        <a href="zehndar.html">Zehndar</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Discover</span>
+                    <div class="dropdown-content">
+                        <a href="timeline.html">Timeline</a>
+                        <a href="sitemap.html">Sitemap</a>
+                        <a href="faq.html">FAQ</a>
+                        <a href="resources.html">Resources</a>
+                    </div>
+                </li>
+                <li><a href="feedback.html">Feedback</a></li>
+                <li><a href="settings.html" class="settings-icon" title="Settings">⚙️</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-content-wrapper">
+        <div class="page-hero">
+            <h1>Creative Timeline</h1>
+            <p class="subtitle">My creative journey visualized</p>
+        </div>
+
+        <section class="timeline-section fade-in-section">
+            <div class="timeline-container">
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <div class="marker-circle"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>2018</h3>
+                        <p class="milestone-title">Journey Begins</p>
+                        <p>Started my creative journey, exploring storytelling across different mediums. Writing very basic stories at first, including the first version of Alvora Chronicles 1.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <div class="marker-circle"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>2020-2025</h3>
+                        <p class="milestone-title">Multi-Platform Growth</p>
+                        <p>Launched my main YouTube channel focused on film analysis and video essays. Added book reviews and began work on original short stories. Launched gaming channel. Finished writing Alvora and Zehndar short stories. Created this website as a central hub for all creative work.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <div class="marker-circle current"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>2026 & Beyond</h3>
+                        <p class="milestone-title">Future Goals</p>
+                        <p>Focused on developing fantasy book series. Deepening worldbuilding and character development. Working towards book publication. Expanding creative universe. Growing community of storytellers.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2026 C.J Philip. All rights reserved.</p>
+    </footer>
+
+    <style>
+        .page-hero {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem 2rem;
+        }
+
+        .page-hero h1 {
+            font-family: 'Playfair Display', 'Georgia', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--dark-text);
+            letter-spacing: -0.5px;
+        }
+
+        .page-hero .subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            font-style: italic;
+        }
+
+        .timeline-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .timeline-container {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-marker {
+            flex-shrink: 0;
+            width: 60px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .marker-circle {
+            width: 16px;
+            height: 16px;
+            background: white;
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            margin-top: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .marker-circle.current {
+            width: 24px;
+            height: 24px;
+            background: var(--accent);
+            margin-top: 0;
+        }
+
+        .timeline-item:hover .marker-circle {
+            width: 20px;
+            height: 20px;
+            box-shadow: 0 0 0 4px rgba(196, 30, 58, 0.2);
+        }
+
+        .timeline-content {
+            margin-left: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover .timeline-content {
+            border-color: var(--accent);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .timeline-content h3 {
+            font-family: 'Playfair Display', 'Georgia', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+            color: var(--accent);
+        }
+
+        .milestone-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--dark-text);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .timeline-content p {
+            margin: 0;
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .page-hero h1 {
+                font-size: 2rem;
+            }
+
+            .timeline-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .timeline-container::before {
+                left: 12px;
+            }
+
+            .timeline-marker {
+                width: 30px;
+            }
+
+            .marker-circle {
+                width: 12px;
+                height: 12px;
+                border-width: 2px;
+            }
+
+            .marker-circle.current {
+                width: 16px;
+                height: 16px;
+            }
+
+            .timeline-content {
+                margin-left: 1rem;
+                padding: 1rem;
+            }
+
+            .timeline-content h3 {
+                font-size: 1.1rem;
+            }
+
+            .timeline-content p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</body>
+</html>
