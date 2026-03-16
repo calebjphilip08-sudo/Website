@@ -2,7 +2,6 @@
 (function() {
     // Default settings
     const defaultSettings = {
-        layoutMode: 'header',
         animationSpeed: 'normal',
         reduceMotion: false,
         defaultYtChannel: 'cjphilip',
@@ -31,15 +30,6 @@
 
     // Apply settings to the page
     function applySettings(settings) {
-        // Apply layout mode
-        if (settings.layoutMode === 'sidebar') {
-            document.body.classList.add('sidebar-mode');
-            localStorage.setItem('sidebarMode', 'true');
-        } else {
-            document.body.classList.remove('sidebar-mode');
-            localStorage.setItem('sidebarMode', 'false');
-        }
-
         // Apply animation speed
         document.documentElement.style.setProperty('--transition-speed', 
             settings.animationSpeed === 'slow' ? '1.2s' :
@@ -85,7 +75,6 @@
 
     // Populate settings form
     function populateSettingsForm(settings) {
-        document.getElementById('layout-mode').value = settings.layoutMode;
         document.getElementById('animation-speed').value = settings.animationSpeed;
         document.getElementById('reduce-motion').checked = settings.reduceMotion;
         document.getElementById('default-yt-channel').value = settings.defaultYtChannel;
@@ -96,7 +85,6 @@
     // Save settings from form
     window.saveSettings = function() {
         const settings = {
-            layoutMode: document.getElementById('layout-mode').value,
             animationSpeed: document.getElementById('animation-speed').value,
             reduceMotion: document.getElementById('reduce-motion').checked,
             defaultYtChannel: document.getElementById('default-yt-channel').value,
@@ -115,7 +103,6 @@
     window.resetSettings = function() {
         if (confirm('Are you sure you want to reset all settings to defaults?')) {
             localStorage.removeItem('userSettings');
-            localStorage.removeItem('sidebarMode');
             localStorage.removeItem('defaultYtChannel');
             localStorage.removeItem('letterboxdSort');
             
