@@ -1,4 +1,4 @@
-// Sidebar toggle functionality
+// Sidebar toggle functionality and Mobile Menu Handler
 (function() {
     // Check for saved preference
     const sidebarMode = localStorage.getItem('sidebarMode') === 'true';
@@ -18,16 +18,59 @@
     // Keep old name for backwards compatibility
     window.toggleSidebar = window.toggleLayout;
     
-    // Handle dropdown clicks in sidebar mode
+    // Mobile menu toggle
+    window.toggleMobileMenu = function() {
+        const hamburger = document.querySelector('.hamburger-menu');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (hamburger && navLinks) {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        }
+    };
+    
+    // Close menu when clicking on a link
+    function closeMenu() {
+        const hamburger = document.querySelector('.hamburger-menu');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (hamburger && navLinks) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+        }
+    }
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+        const header = document.querySelector('header');
+        if (header && !header.contains(e.target)) {
+            closeMenu();
+        }
+    });
+    
+    // Handle dropdown clicks in sidebar mode and mobile
     document.addEventListener('DOMContentLoaded', function() {
         const dropdowns = document.querySelectorAll('.dropdown');
+        const navLinks = document.querySelectorAll('.nav-links a, .nav-links li > a');
+        
+        // Close mobile menu when clicking on nav links
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                // Only close if not a dropdown toggle
+                if (!this.classList.contains('dropdown-toggle')) {
+                    closeMenu();
+                }
+            });
+        });
         
         dropdowns.forEach(dropdown => {
             const toggle = dropdown.querySelector('.dropdown-toggle');
             
             toggle.addEventListener('click', function(e) {
-                // Only handle click if in sidebar mode
-                if (document.body.classList.contains('sidebar-mode')) {
+                // Check if on mobile/tablet (menu is visible)
+                const isMobileView = window.innerWidth <= 768;
+                
+                if (isMobileView || document.body.classList.contains('sidebar-mode')) {
                     e.preventDefault();
                     dropdown.classList.toggle('active');
                     
@@ -40,5 +83,17 @@
                 }
             });
         });
+    });
+    
+    // Close menu on window resize (when switching from mobile to desktop)
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            closeMenu();
+            
+            // Close any open dropdowns in desktop view
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+        }
     });
 })();
