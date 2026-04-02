@@ -1,36 +1,26 @@
-// theme.js — small, dependency-free theme toggle
+// theme.js — small, dependency-free theme toggle and nav utilities
 (() => {
-  const STORAGE_KEY = 'site-theme'; // 'light' | 'dark' | null
+  const STORAGE_KEY = 'alvora-theme';
   const DOC = document.documentElement;
   const toggle = document.getElementById('theme-toggle');
   const metaThemeColor = document.getElementById('meta-theme-color');
+  const darkMeta = '#071025';
+  const lightMeta = '#ffffff';
 
   function applyTheme(theme) {
     if (theme === 'dark') {
       DOC.setAttribute('data-theme', 'dark');
-      if (metaThemeColor) metaThemeColor.setAttribute('content', getComputedStyle(DOC).getPropertyValue('--theme-meta').trim() || '#071025');
+      if (metaThemeColor) metaThemeColor.setAttribute('content', darkMeta);
       if (toggle) {
         toggle.setAttribute('aria-pressed', 'true');
         toggle.title = 'Switch to light mode';
       }
     } else if (theme === 'light') {
       DOC.setAttribute('data-theme', 'light');
-      if (metaThemeColor) metaThemeColor.setAttribute('content', getComputedStyle(DOC).getPropertyValue('--theme-meta').trim() || '#ffffff');
+      if (metaThemeColor) metaThemeColor.setAttribute('content', lightMeta);
       if (toggle) {
         toggle.setAttribute('aria-pressed', 'false');
         toggle.title = 'Switch to dark mode';
-      }
-    } else {
-      // remove attribute to fall back to CSS/media preference
-      DOC.removeAttribute('data-theme');
-      if (toggle) {
-        // determine current effective theme via computed color contrast
-        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        toggle.setAttribute('aria-pressed', prefersDark ? 'true' : 'false');
-      }
-      if (metaThemeColor) {
-        // read from :root computed var
-        metaThemeColor.setAttribute('content', getComputedStyle(DOC).getPropertyValue('--theme-meta').trim() || '#ffffff');
       }
     }
   }
@@ -48,68 +38,99 @@
       if (theme === null) localStorage.removeItem(STORAGE_KEY);
       else localStorage.setItem(STORAGE_KEY, theme);
     } catch (e) {
-      // ignore
+      // ignore storage failures
     }
   }
 
-  // Initialize
-  const stored = getStoredTheme();
-  if (stored === 'dark' || stored === 'light') {
-    applyTheme(stored);
-  } else {
-    // No explicit choice — let CSS media query decide (we still update meta)
-    applyTheme(null);
-  }
-
-  // Respond to system preference changes if the user hasn't chosen explicitly
-  const mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
-  if (mq && typeof mq.addEventListener === 'function') {
-    mq.addEventListener('change', e => {
-      const storedTheme = getStoredTheme();
-      if (!storedTheme) {
-        applyTheme(null);
+  function updateActiveNav() {
+    const fileName = window.location.pathname.split('/').pop().toLowerCase() || 'index.html';
+    document.querySelectorAll('.nav-links a, .dropdown-content a').forEach(link => {
+      const href = (link.getAttribute('href') || '').toLowerCase();
+      if (href === fileName) {
+        link.classList.add('active');
       }
     });
-  } else if (mq && mq.addListener) {
-    mq.addListener(e => {
-      const storedTheme = getStoredTheme();
-      if (!storedTheme) applyTheme(null);
+  }
+
+  function closeAllDropdowns() {
+    document.querySelectorAll('.dropdown').forEach(dropdown => {
+      dropdown.classList.remove('open');
+      const toggleButton = dropdown.querySelector('.dropdown-toggle');
+      if (toggleButton) toggleButton.setAttribute('aria-expanded', 'false');
     });
   }
 
-  // Toggle handler
+  function initDropdownAccessibility() {
+    document.querySelectorAll('.dropdown-toggle').forEach(button => {
+      button.setAttribute('role', 'button');
+      button.setAttribute('aria-haspopup', 'true');
+      if (!button.hasAttribute('aria-expanded')) {
+        button.setAttribute('aria-expanded', 'false');
+      }
+      button.addEventListener('click', () => {
+        const dropdown = button.closest('.dropdown');
+        if (!dropdown) return;
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+        closeAllDropdowns();
+        button.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+        dropdown.classList.toggle('open', !expanded);
+      });
+    });
+
+    document.querySelectorAll('.dropdown-content a').forEach(link => {
+      link.addEventListener('click', () => {
+        closeAllDropdowns();
+      });
+    });
+
+    document.addEventListener('click', event => {
+      if (!event.target.closest('.dropdown')) {
+        closeAllDropdowns();
+      }
+    });
+  }
+
+  const stored = getStoredTheme();
+  const initialTheme = stored === 'dark' || stored === 'light' ? stored : 'dark';
+  applyTheme(initialTheme);
+  if (!stored) setStoredTheme(initialTheme);
+
   if (toggle) {
     toggle.addEventListener('click', () => {
-      const current = getStoredTheme();
-      // if no stored preference, get effective theme
-      let effective = current;
-      if (!effective) {
-        effective = (window.getComputedStyle(document.documentElement).getPropertyValue('--bg') || '').trim();
-        // simple heuristic: if effective bg equals dark theme var, treat as dark
-        // but safer to check aria-pressed
-        effective = toggle.getAttribute('aria-pressed') === 'true' ? 'dark' : 'light';
-      }
-
-      const next = (effective === 'dark') ? 'light' : 'dark';
+      const current = getStoredTheme() || (toggle.getAttribute('aria-pressed') === 'true' ? 'dark' : 'light');
+      const next = current === 'dark' ? 'light' : 'dark';
       setStoredTheme(next);
       applyTheme(next);
     });
-
-    // keyboard accessibility: space/enter already triggers click
   }
 
-  // Expose a small API (optional)
+  const mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+  if (mq && typeof mq.addEventListener === 'function') {
+    mq.addEventListener('change', () => {
+      if (!getStoredTheme()) applyTheme('dark');
+    });
+  } else if (mq && mq.addListener) {
+    mq.addListener(() => {
+      if (!getStoredTheme()) applyTheme('dark');
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    updateActiveNav();
+    initDropdownAccessibility();
+  });
+
   window.siteTheme = {
     get: getStoredTheme,
     set: (t) => {
       if (t === 'dark' || t === 'light' || t === null) {
         setStoredTheme(t);
-        applyTheme(t);
+        applyTheme(t === null ? 'dark' : t);
       }
     },
     reset: () => {
       setStoredTheme(null);
-      applyTheme(null);
+      applyTheme('dark');
     }
   };
 })();
